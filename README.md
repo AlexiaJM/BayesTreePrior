@@ -7,4 +7,5 @@ This is work is part of my master thesis (In revision, expected 2016) and a jour
 To install the latest GitHub development version, run:
 
 install.packages("devtools")
+
 devtools::install_github("AlexiaJM/BayesTreePrior")
