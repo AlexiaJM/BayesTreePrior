@@ -5,5 +5,6 @@ by Chipman et al. (1998) is not recommended and could lead to unexpected prior d
 This is work is part of my master thesis (In revision, expected 2016) and a journal publication I'm working on.
 
 To install the latest GitHub development version, run:
+
 install.packages("devtools")
 devtools::install_github("AlexiaJM/BayesTreePrior")
