@@ -2,7 +2,7 @@
 % Please edit documentation in R/BayesTreePrior.R
 \name{Var_alpha}
 \alias{Var_alpha}
-\title{Variance of the number of bottom nodes in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).}
+\title{Variance of the number of bottom nodes in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).}
 \usage{
 Var_alpha(alpha)
 }
@@ -13,7 +13,7 @@ Var_alpha(alpha)
 Returns the variance of the number of bottom nodes.
 }
 \description{
-Variance of the number of bottom nodes in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
+Variance of the number of bottom nodes in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
 }
 \examples{
 Var_alpha(.30)

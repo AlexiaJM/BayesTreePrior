@@ -40,12 +40,12 @@ This is the main function to use for simulating from the prior. There are 4 case
  \item{Case #3: }{Design matrix X is orthogonal}
  \item{Case #4: }{General case}
 }
-Case #1 will be used if no design matrix X or number of observations is given and \eqn{\beta = 0}. Case #2 will be used if no design matrix X or number of observations is given and \eqn{\beta \neq 0}. Case #3 will be used if no design matrix X is given but the number of observations is given. Case #4 will be used if the design matrix X is given. Note that case #4 is always slower, so if your design matrix is orthogonal, it would be advisable to enter the number of uniques observations rather than the design matrix X to be able to use case #3.
+Case #1 will be used if no design matrix X or number of observations is given and \eqn{\beta = 0}. Case #2 will be used if no design matrix X or number of observations is given and \eqn{\beta \neq 0}. Case #3 will be used if no design matrix X is given but the number of observations is given. Case #4 will be used if the design matrix X is given. Note that case #4 is always slower, so if your design matrix is orthogonal, it would be advisable to enter the number of uniques observations rather than the design matrix X, to be able to use case #3.
 }
 \examples{
-#Case 1 : Unrealistic case where we assume that the number of variables is infinite and beta=0
+#Case 1 : Unrealistic case where we assume that the number of var/obs is infinite and beta=0
 results1 = BayesTreePrior(.45,0)
-#Case 2 : Unrealistic case where we assume that the number of variables is infinite
+#Case 2 : Unrealistic case where we assume that the number of var/obs is infinite
 results2 = BayesTreePrior(.95,.5)
 #Case 3 : Design matrix X is orthogonal
 results3 = BayesTreePrior(.95,.5,n_obs=150)

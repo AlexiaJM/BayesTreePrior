@@ -12,8 +12,8 @@
 #' @export
 "p_split"
 
-#' @title Expected value of the number of bottom nodes in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
-#' @description Expected value of the number of bottom nodes in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
+#' @title Expected value of the number of bottom nodes in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
+#' @description Expected value of the number of bottom nodes in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
 #' @param alpha base parameter of the tree prior, \eqn{alpha \in [0,1)}.
 #' @return Returns the expected value of the number of bottom nodes.
 #' @examples
@@ -26,8 +26,8 @@
 #' @export
 "E_alpha"
 
-#' @title Variance of the number of bottom nodes in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
-#' @description Variance of the number of bottom nodes in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
+#' @title Variance of the number of bottom nodes in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
+#' @description Variance of the number of bottom nodes in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
 #' @param alpha base parameter of the tree prior, \eqn{\alpha \in [0,1)}.
 #' @return Returns the variance of the number of bottom nodes.
 #' @examples
@@ -40,8 +40,8 @@
 #' @export
 "Var_alpha"
 
-#' @title Number of bottom nodes and depth in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
-#' @description Generate a tree and returns the number of bottom nodes and depth in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
+#' @title Number of bottom nodes and depth in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
+#' @description Generate a tree and returns the number of bottom nodes and depth in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
 #' @param alpha base parameter of the tree prior, \eqn{\alpha \in [0,1)}.
 #' @param beta power parameter of the tree prior, \eqn{beta \geq 0}.
 #' @param depth depth of the current node, \eqn{depth \geq 0}.
@@ -52,8 +52,8 @@
 #' @export
 "NumBotMaxDepth_inf"
 
-#' @title Simulation of the tree prior in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
-#' @description Generate \eqn{n_{iter}} trees from the prior distribution in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
+#' @title Simulation of the tree prior in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
+#' @description Generate \eqn{n_{iter}} trees from the prior distribution in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
 #' @param alpha base parameter of the tree prior, \eqn{\alpha \in [0,1)}.
 #' @param beta power parameter of the tree prior, \eqn{beta \geq 0}.
 #' @param n_iter number of trees to generate, \eqn{n_{iter}>0}.
@@ -96,7 +96,7 @@
 #' @param x vector containing the observations of a variable.
 #' @param minpart minimum number of observations in the children nodes.
 #' @param MIA set to TRUE if you want Missing Incorporated in Attributes (MIA) imputation to be used.
-#' @return If \eqn{MIA} is TRUE and \eqn{minpart>1}, it might be possible that the possible splits are different depending on whether we transfer the NAs to the left child or the right child; if this is the case then the function returns a list \eqn{(v1,v2)}, where \eqn{v1} is the vector containing the unique splits with NAs transfered to the left child that leads to \eqn{minpart} nodes and \eqn{v2} is the vector containing the unique splits with NAs transfered to the right child that leads to children with more than \eqn{minpart} nodes. Otherwise, it returns the vector containing the unique splits that leads to children with more than \eqn{minpart} nodes.
+#' @return If \eqn{MIA} is TRUE and \eqn{minpart>1}, the possible splits could be different depending on whether we transfer the NAs to the left child or the right child; if this is the case then the function returns a list \eqn{(v1,v2)}, where \eqn{v1} is the vector containing the unique splits that leads to \eqn{minpart} nodes when transferring the NAs to the left child and \eqn{v2} is the vector containing the unique splits that leads to children with more than \eqn{minpart} nodes when transferring the NAs to the left child. Otherwise, it returns the vector containing the unique splits that leads to children with more than \eqn{minpart} nodes.
 #' @examples
 #' GetListUniqueSplits(c(1,4,7,3,0,2,2,3,4,7,7,7),minpart=1)
 #' GetListUniqueSplits(c(1,4,7,3,0,2,2,3,4,7,7,7),minpart=3)
@@ -168,7 +168,7 @@
 #'  \item{Case #3: }{Design matrix X is orthogonal}
 #'  \item{Case #4: }{General case}
 #' }
-#' Case #1 will be used if no design matrix X or number of observations is given and \eqn{\beta = 0}. Case #2 will be used if no design matrix X or number of observations is given and \eqn{\beta \neq 0}. Case #3 will be used if no design matrix X is given but the number of observations is given. Case #4 will be used if the design matrix X is given. Note that case #4 is always slower, so if your design matrix is orthogonal, it would be advisable to enter the number of uniques observations rather than the design matrix X to be able to use case #3.
+#' Case #1 will be used if no design matrix X or number of observations is given and \eqn{\beta = 0}. Case #2 will be used if no design matrix X or number of observations is given and \eqn{\beta \neq 0}. Case #3 will be used if no design matrix X is given but the number of observations is given. Case #4 will be used if the design matrix X is given. Note that case #4 is always slower, so if your design matrix is orthogonal, it would be advisable to enter the number of uniques observations rather than the design matrix X, to be able to use case #3.
 #' 
 #' @param alpha base parameter of the tree prior, \eqn{\alpha \in [0,1)}.
 #' @param beta power parameter of the tree prior, \eqn{\beta \geq 0}.
@@ -182,9 +182,9 @@
 #' @param missingdummy set to TRUE if you want the NAs to be dummy coded.
 #' @return In case #1, it returns a list containing, in the following order: the expectation and the variance of the number of bottom nodes. In cases #2, #3 or #4, it returns a list containing, in the following order: the mean number of bottom nodes, the standard deviation of the number of bottom nodes, the mean of the depth, the standard deviation of the depth and a data.frame of vectors \eqn{(b_i,d_i)}, where \eqn{b_i} is the number of bottom nodes and \eqn{d_i} is the depth of the \eqn{i}th generated tree (\eqn{i=1, \ldots ,n_{iter}}).
 #' @examples
-#' #Case 1 : Unrealistic case where we assume that the number of variables is infinite and beta=0
+#' #Case 1 : Unrealistic case where we assume that the number of var/obs is infinite and beta=0
 #' results1 = BayesTreePrior(.45,0)
-#' #Case 2 : Unrealistic case where we assume that the number of variables is infinite
+#' #Case 2 : Unrealistic case where we assume that the number of var/obs is infinite
 #' results2 = BayesTreePrior(.95,.5)
 #' #Case 3 : Design matrix X is orthogonal
 #' results3 = BayesTreePrior(.95,.5,n_obs=150)
@@ -337,7 +337,7 @@ GetListUniqueSplits = function(x, minpart=1, MIA=FALSE)
 			else{
 				# We need to remove the last unique observation. 
 				# Normally this is automatically dealt with when we search for reject=TRUE but here if we split on the last unique observation
-				# it could lead to only NAs in one of the right children but the size would be bigger than minsplit and we would have reject=FALSE.
+				# it could lead to only NAs in one of the right children but the size would be bigger than minpart and we would have reject=FALSE.
 				# We already have included dummy variables of NAs for that purposes in the variable so we can't have them as splits in here too.
 				n_left = n_left[-length(n_left)]
 				uniques = uniques[-length(uniques)]
@@ -458,7 +458,7 @@ BayesTreePrior = function(alpha, beta, X=NULL, n_obs=NULL, n_iter=500, minpart=1
 		else if (package!="") warning("Argument package is not recognized, ignoring. Set package=NULL to remove warning.")
 	} 
 	if (mode(alpha) !="NULL" && (mode(alpha) != "numeric" || alpha < 0)) stop("alpha must be a number bigger or equal to 0")
-	if (alpha > 1) warning("alpha should probably be <= 1, alpha > 1 will force the use of the alternative definition of the probability of split : min[1, alpha/((1+depth)^beta)] (See MyThesis)")
+	if (alpha > 1) warning("alpha should probably be <= 1, alpha > 1 will force the use of the alternative definition of the probability of split : min[1, alpha/((1+depth)^beta)] (Jolicoeur-Martineau, A. (Master thesis in revision, expected 2016))")
 	if (mode(beta) !="NULL" && (mode(beta) != "numeric" || beta < 0)) stop("beta must be a number bigger than 0")
 	if (mode(X) !="NULL" && class(X) != "data.frame" && class(X) != "matrix" && !is.vector(X)) stop("X must be a data.frame")
 	if (mode(n_obs) !="NULL" && (mode(n_obs) != "numeric" || n_obs%%1!=0 || n_obs < 2)) stop("n_obs must be a integer bigger than 1")
@@ -483,23 +483,23 @@ BayesTreePrior = function(alpha, beta, X=NULL, n_obs=NULL, n_iter=500, minpart=1
 		}
 		else{
 			# Add check for orthogonality on X for this case;
-			message("Case 3 -> The number of variables and possible splits are finite and the design matrix is orthogonal.")
+			message("Case 3 -> The design matrix is orthogonal")
 			message("Ignored arguments : min_part, pvars, MIA, missingdummy")
 			return(BayesTreePriorOrthogonal(alpha, beta, n_obs, n_iter))
 		}
 	}
 	else{
    		if(is.vector(X) && minpart==1 && is.null(pvars) && MIA==FALSE){
-			message("Case 3 -> The number of variables and possible splits are finite and the design matrix is orthogonal.")
+			message("Case 3 -> The design matrix is orthogonal")
 			message("Ignored arguments : min_part, pvars, MIA, missingdummy")
    			return(BayesTreePriorOrthogonal(alpha, beta, n_obs=length(GetListUniqueSplits(X))))
    		}
    		if(dim(X)[2] == 1 && minpart==1 && is.null(pvars) && MIA==FALSE){
-			message("Case 3 -> The number of variables and possible splits are finite and the design matrix is orthogonal.")
+			message("Case 3 -> The design matrix is orthogonal")
 			message("Ignored arguments : min_part, pvars, MIA, missingdummy")
    			return(BayesTreePriorOrthogonal(alpha, beta, n_obs=length(GetListUniqueSplits(as.vector(as.matrix(X))))))
    		}
-		message("Case 4 -> The number of variables and possible splits are finite and the design matrix is orthogonal.")
+		message("Case 4 -> General case")
 		X = data.frame(X)
 		if (min(sapply(X, is.numeric)) == 0) stop("X contains non-numeric variables. Please dummy code the categorical variables and make sure that every variable is numeric.")
 		if (missingdummy == 1 && MIA==1){

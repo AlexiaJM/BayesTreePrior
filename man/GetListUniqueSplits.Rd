@@ -14,7 +14,7 @@ GetListUniqueSplits(x, minpart = 1, MIA = FALSE)
 \item{MIA}{set to TRUE if you want Missing Incorporated in Attributes (MIA) imputation to be used.}
 }
 \value{
-If \eqn{MIA} is TRUE and \eqn{minpart>1}, it might be possible that the possible splits are different depending on whether we transfer the NAs to the left child or the right child; if this is the case then the function returns a list \eqn{(v1,v2)}, where \eqn{v1} is the vector containing the unique splits with NAs transfered to the left child that leads to \eqn{minpart} nodes and \eqn{v2} is the vector containing the unique splits with NAs transfered to the right child that leads to children with more than \eqn{minpart} nodes. Otherwise, it returns the vector containing the unique splits that leads to children with more than \eqn{minpart} nodes.
+If \eqn{MIA} is TRUE and \eqn{minpart>1}, the possible splits could be different depending on whether we transfer the NAs to the left child or the right child; if this is the case then the function returns a list \eqn{(v1,v2)}, where \eqn{v1} is the vector containing the unique splits that leads to \eqn{minpart} nodes when transferring the NAs to the left child and \eqn{v2} is the vector containing the unique splits that leads to children with more than \eqn{minpart} nodes when transferring the NAs to the left child. Otherwise, it returns the vector containing the unique splits that leads to children with more than \eqn{minpart} nodes.
 }
 \description{
 Unique splits that leads to children with more than \eqn{minpart} nodes.

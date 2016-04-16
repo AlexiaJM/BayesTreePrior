@@ -2,7 +2,7 @@
 % Please edit documentation in R/BayesTreePrior.R
 \name{E_alpha}
 \alias{E_alpha}
-\title{Expected value of the number of bottom nodes in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).}
+\title{Expected value of the number of bottom nodes in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).}
 \usage{
 E_alpha(alpha)
 }
@@ -13,7 +13,7 @@ E_alpha(alpha)
 Returns the expected value of the number of bottom nodes.
 }
 \description{
-Expected value of the number of bottom nodes in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
+Expected value of the number of bottom nodes in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) and \eqn{\beta=0} (Case #1).
 }
 \examples{
 E_alpha(.30)

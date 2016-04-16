@@ -2,7 +2,7 @@
 % Please edit documentation in R/BayesTreePrior.R
 \name{NumBotMaxDepth_inf}
 \alias{NumBotMaxDepth_inf}
-\title{Number of bottom nodes and depth in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).}
+\title{Number of bottom nodes and depth in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).}
 \usage{
 NumBotMaxDepth_inf(alpha, beta, depth = 0)
 }
@@ -17,7 +17,7 @@ NumBotMaxDepth_inf(alpha, beta, depth = 0)
 Returns a vector containing the number of bottom nodes and depth.
 }
 \description{
-Generate a tree and returns the number of bottom nodes and depth in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
+Generate a tree and returns the number of bottom nodes and depth in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
 }
 \examples{
 NumBotMaxDepth_inf(.95,.5)

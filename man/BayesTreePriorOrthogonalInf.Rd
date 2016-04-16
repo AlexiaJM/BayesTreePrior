@@ -2,7 +2,7 @@
 % Please edit documentation in R/BayesTreePrior.R
 \name{BayesTreePriorOrthogonalInf}
 \alias{BayesTreePriorOrthogonalInf}
-\title{Simulation of the tree prior in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).}
+\title{Simulation of the tree prior in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).}
 \usage{
 BayesTreePriorOrthogonalInf(alpha, beta, n_iter = 500)
 }
@@ -17,7 +17,7 @@ BayesTreePriorOrthogonalInf(alpha, beta, n_iter = 500)
 Returns a list containing, in the following order: the mean number of bottom nodes, the standard deviation of the number of bottom nodes, the mean of the depth, the standard deviation of the depth and a data.frame of vectors \eqn{(b_i,d_i)}, where \eqn{b_i} is the number of bottom nodes and \eqn{d_i} is the depth of the \eqn{i}th generated tree (\eqn{i=1, \ldots ,n_{iter}}).
 }
 \description{
-Generate \eqn{n_{iter}} trees from the prior distribution in the unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
+Generate \eqn{n_{iter}} trees from the prior distribution in the unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) (Case #2).
 }
 \examples{
 results = BayesTreePriorOrthogonalInf(.95,.5)
