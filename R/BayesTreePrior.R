@@ -93,12 +93,15 @@
 
 #' @title Unique splits that leads to children with more than \eqn{minpart} nodes.
 #' @description Unique splits that leads to children with more than \eqn{minpart} nodes.
-#' @param x vector containing the observations of a variable
-#' @param minpart minimum number of observations in the children nodes
-#' @return Returns a vector containing the unique splits that leads to children with more than \eqn{minpart} nodes.
+#' @param x vector containing the observations of a variable.
+#' @param minpart minimum number of observations in the children nodes.
+#' @param MIA set to TRUE if you want Missing Incorporated in Attributes (MIA) imputation to be used.
+#' @return If \eqn{MIA} is TRUE and \eqn{minpart>1}, it might be possible that the possible splits are different depending on whether we transfer the NAs to the left child or the right child; if this is the case then the function returns a list \eqn{(v1,v2)}, where \eqn{v1} is the vector containing the unique splits with NAs transfered to the left child that leads to \eqn{minpart} nodes and \eqn{v2} is the vector containing the unique splits with NAs transfered to the right child that leads to children with more than \eqn{minpart} nodes. Otherwise, it returns the vector containing the unique splits that leads to children with more than \eqn{minpart} nodes.
 #' @examples
 #' GetListUniqueSplits(c(1,4,7,3,0,2,2,3,4,7,7,7),minpart=1)
 #' GetListUniqueSplits(c(1,4,7,3,0,2,2,3,4,7,7,7),minpart=3)
+#' GetListUniqueSplits(c(1,4,7,3,0,2,2,3,4,7,7,7,NA,NA,NA),minpart=1, MIA=TRUE)
+#' GetListUniqueSplits(c(1,4,7,3,0,2,2,3,4,7,7,7,NA,NA,NA),minpart=3, MIA=TRUE)
 #' @export
 "GetListUniqueSplits"
 
@@ -160,8 +163,8 @@
 #' @title Simulation of the tree prior.
 #' @description This is the main function to use for simulating from the prior. There are 4 cases : 
 #' \itemize{
-#'  \item{Case #1: }{Unrealistic case where we assume that the number of variables is infinite (therefore \eqn{P(T)} is not dependent on the design matrix X) and \eqn{\beta=0}}
-#'  \item{Case #2: }{Unrealistic case where where we assume that the number of variables is infinite (therefore \eqn{P(T)} is not dependent on the design matrix X)}
+#'  \item{Case #1: }{Unrealistic case where we assume that the number of variables and possible splits are infinite (therefore \eqn{P(T)} is not dependent on the design matrix X) and \eqn{\beta=0}}
+#'  \item{Case #2: }{Unrealistic case where we assume that the number of variables and possible splits are infinite (therefore \eqn{P(T)} is not dependent on the design matrix X)}
 #'  \item{Case #3: }{Design matrix X is orthogonal}
 #'  \item{Case #4: }{General case}
 #' }
@@ -210,6 +213,7 @@
 #' Twala, B. E. T. H., Jones, M. C., & Hand, D. J. (2008). \emph{Good methods for coping with missing data in decision trees.} Pattern Recognition Letters, 29(7), 950-956.
 #'
 #' Jolicoeur-Martineau, A. (Currently in revision, expected 2016) \emph{Etude d'une loi a priori pour les arbres binaires de regression} (\emph{Study on the prior distribution of binary regression trees}) (Master thesis). UQAM university.
+#' @import stats
 #' @export
 "BayesTreePrior"
 
@@ -277,28 +281,86 @@ BayesTreePriorOrthogonal = function(alpha, beta, n_obs, n_iter=500)
 	return(list(mean_nodes = mean(nodes), sd_nodes = sd(nodes), mean_depth = mean(depth), sd_depth = sd(depth), draws = cbind(nodes,depth)))
 }
 
-GetListUniqueSplits = function(x, minpart=1)
+GetListUniqueSplits = function(x, minpart=1, MIA=FALSE)
 {
-	# Note that sort() automatically remove NAs
-	if (minpart == 1){
-		x = unique(sort(x))
-		x = x[-length(x)]
-		return(x)
+	if (!MIA){
+		if (minpart == 1){
+			# Note that sort() automatically remove NAs
+			x = unique(sort(x))
+			x = x[-length(x)]
+			return(x)
+		}
+		else{
+			x_sorted = sort(x)
+			# NAs only, return empty vector
+			if (length(x_sorted) == 0) return(numeric(0))
+			rle = rle(x_sorted)
+			uniques = unlist(rle[2])
+			if (length(uniques) <= 1) return(numeric(0))
+			n_left = cumsum(unlist(rle[1]))
+			n_right = length(x) - n_left
+			reject = rep(FALSE, length(n_left))
+			for (i in 1:length(n_left)){
+				if (min(n_left[i],n_right[i]) < minpart) reject[i]=TRUE
+				else reject[i]=FALSE
+			}
+			return(uniques[!reject])
+		}
 	}
 	else{
-		x_sorted = sort(x)
-		# NAs only, return empty vector
-		if (length(x_sorted) == 0) return(numeric(0))
-		rle = rle(x_sorted)
-		uniques = unlist(rle[2])
-		n_left = cumsum(unlist(rle[1]))
-		n_right = length(x) - n_left
-		reject = rep(FALSE, length(n_left))
-		for (i in 1:length(n_left)){
-			if (min(n_left[i],n_right[i]) < minpart) reject[i]=TRUE
-			else reject[i]=FALSE
+	# If we are using MIA, we must return the two types of splits [(X<=x or X missing) v.s. (X>x)] and [(X<=x) v.s. (X>x or X missing)] as a list
+		if (minpart == 1){
+			# Note that sort() automatically remove NAs
+			x = unique(sort(x))
+			x = x[-length(x)]
+			return(x)
 		}
-		return(uniques[!reject])
+		else{
+			NA_counts = sum(is.na(x))
+			x_sorted = sort(x)
+			# NAs only, return empty vector
+			if (length(x_sorted) == 0) return(numeric(0))
+			rle = rle(x_sorted)
+			uniques = unlist(rle[2])
+			if (length(uniques) <= 1) return(numeric(0))
+			n_left = cumsum(unlist(rle[1]))
+			if (NA_counts == 0){
+				n_right = length(x) - n_left
+				reject = rep(FALSE, length(n_left))
+				for (i in 1:length(n_left)){
+					if (min(n_left[i],n_right[i]) < minpart) reject[i]=TRUE
+					else reject[i]=FALSE
+				}
+				uniques = uniques[!reject]
+				return(uniques)
+			}
+			else{
+				# We need to remove the last unique observation. 
+				# Normally this is automatically dealt with when we search for reject=TRUE but here if we split on the last unique observation
+				# it could lead to only NAs in one of the right children but the size would be bigger than minsplit and we would have reject=FALSE.
+				# We already have included dummy variables of NAs for that purposes in the variable so we can't have them as splits in here too.
+				n_left = n_left[-length(n_left)]
+				uniques = uniques[-length(uniques)]
+				n_left_1 = n_left + NA_counts
+				n_right_1 = length(x) - n_left_1
+				n_left_2 = n_left
+				n_right_2 = length(x) - n_left_2
+
+				reject_1 = rep(FALSE, length(n_left_1))
+				reject_2 = rep(FALSE, length(n_left_2))
+				for (i in 1:length(n_left)){
+					if (min(n_left_1[i],n_right_1[i]) < minpart) reject_1[i]=TRUE
+					else reject_1[i]=FALSE
+					if (min(n_left_2[i],n_right_2[i]) < minpart) reject_2[i]=TRUE
+					else reject_2[i]=FALSE
+				}
+				uniques1 = uniques[!reject_1]
+				uniques2 = uniques[!reject_2]
+				if (length(uniques1) == 0) return(uniques2)
+				else if (length(uniques2) == 0) return(uniques1)
+				else return(list(v1 = uniques[!reject_1], v2 = uniques[!reject_2]))
+			}
+		}
 	}
 }
 
@@ -306,7 +368,8 @@ NumBotMaxDepthX = function(alpha, beta, X, depth = 0, minpart=1, pvars=NULL, MIA
 	# If we splits with size < minpart*2, this will necessarely leads to children with less than minpart nodes
 	if (dim(X)[1] < minpart*2) return(c(1, depth))
 	else if (runif(1) <= p_split(alpha, beta, depth)){
-		X_list = lapply(as.list(X),GetListUniqueSplits, minpart=minpart)
+		# List of lists (v1,v2) is (MIA && minpart >1), otherwise list of vectors
+		X_list = lapply(as.list(X),GetListUniqueSplits, minpart=minpart, MIA=MIA)
 		# Remove variables with no available splits but remember their indexes
 		empty_splits = sapply(X_list, function(x) length(x) == 0)
 		X_list = X_list[!empty_splits]
@@ -315,14 +378,26 @@ NumBotMaxDepthX = function(alpha, beta, X, depth = 0, minpart=1, pvars=NULL, MIA
 		if (nvars == 0) return(c(1, depth))
 		index_var = sample(1:nvars, 1, prob=pvars[!empty_splits])
 		true_index_var = match(c(index_var),cumsum(!empty_splits))
+		if (MIA){
+			if (runif(1) <= 0.5){
+				NA_to_left = TRUE
+				if (class(X_list[[index_var]]) == "list") X_list[[index_var]] = X_list[[index_var]][[1]]
+			} 
+			else{
+				NA_to_left = FALSE
+				if (class(X_list[[index_var]]) == "list") X_list[[index_var]] = X_list[[index_var]][[2]]
+			}
+		}
 		nobs = length(X_list[[index_var]])
 		index_obs = sample(1:nobs, 1)
 		# Assign true or false depending on if the variable is <= the index of observation
 		if (MIA){
 			# If the variable we split on is NOT a missing dummy variable
-			if (missingdummy || true_index_var <= dim(X)[2]/2){
+			if (!missingdummy || true_index_var <= dim(X)[2]/2){
+				# bartMachine package source code shows that they implement MIA so that there is 1/2 probability of NAs going left and 1/2 probability of going right
+				# Therefore, we will implement use a coin flip here and we will return the chosen list of splits
 				# Case 1 : (X<=x or X missing) v.s. (X>x)
-				if (runif(1) <= 0.5) X_new_index <- ifelse(X[, true_index_var] <= X_list[[index_var]][index_obs] | is.na(X[, true_index_var]), TRUE, FALSE)
+				if (NA_to_left) X_new_index <- ifelse(X[, true_index_var] <= X_list[[index_var]][index_obs] | is.na(X[, true_index_var]), TRUE, FALSE)
 				# Case 2 : (X<=x) v.s. (X>x or X missing)
 				else X_new_index <- ifelse(X[, true_index_var] <= X_list[[index_var]][index_obs] & !is.na(X[, true_index_var]), TRUE, FALSE)
 			}
@@ -396,35 +471,35 @@ BayesTreePrior = function(alpha, beta, X=NULL, n_obs=NULL, n_iter=500, minpart=1
 	if (is.null(X)){
 		if (is.null(n_obs)){
 			if (beta == 0){
-				message("Case 1 -> Unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X) and beta=0")
+				message("Case 1 -> Unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X) and beta=0")
 				message("Ignored arguments : n_iter, min_part, pvars, MIA, missingdummy")
 				return(list(mean_nodes = E_alpha(alpha), sd_nodes = sqrt(Var_alpha(alpha))))
 			}
 			else{
-				message("Case 2 -> Unrealistic case where we assume that the number of variables is infinite (therefore P(T) is not dependent on the design matrix X)")
+				message("Case 2 -> Unrealistic case where we assume that the number of variables and possible splits are infinite (therefore P(T) is not dependent on the design matrix X)")
 				message("Ignored arguments : min_part, pvars, MIA, missingdummy")
 				return(BayesTreePriorOrthogonalInf(alpha, beta, n_iter))
 			}
 		}
 		else{
 			# Add check for orthogonality on X for this case;
-			message("Case 3 -> We assume that trees are finite and that the variables are orthogonal.")
+			message("Case 3 -> The number of variables and possible splits are finite and the design matrix is orthogonal.")
 			message("Ignored arguments : min_part, pvars, MIA, missingdummy")
 			return(BayesTreePriorOrthogonal(alpha, beta, n_obs, n_iter))
 		}
 	}
 	else{
    		if(is.vector(X) && minpart==1 && is.null(pvars) && MIA==FALSE){
-			message("Case 3 -> We assume that trees are finite and that the variables are orthogonal.")
+			message("Case 3 -> The number of variables and possible splits are finite and the design matrix is orthogonal.")
 			message("Ignored arguments : min_part, pvars, MIA, missingdummy")
    			return(BayesTreePriorOrthogonal(alpha, beta, n_obs=length(GetListUniqueSplits(X))))
    		}
    		if(dim(X)[2] == 1 && minpart==1 && is.null(pvars) && MIA==FALSE){
-			message("Case 3 -> We assume that trees are finite and that the variables are orthogonal.")
+			message("Case 3 -> The number of variables and possible splits are finite and the design matrix is orthogonal.")
 			message("Ignored arguments : min_part, pvars, MIA, missingdummy")
    			return(BayesTreePriorOrthogonal(alpha, beta, n_obs=length(GetListUniqueSplits(as.vector(as.matrix(X))))))
    		}
-		message("Case 4 -> We assume that trees are finite and that the variables are not orthogonal.")
+		message("Case 4 -> The number of variables and possible splits are finite and the design matrix is orthogonal.")
 		X = data.frame(X)
 		if (min(sapply(X, is.numeric)) == 0) stop("X contains non-numeric variables. Please dummy code the categorical variables and make sure that every variable is numeric.")
 		if (missingdummy == 1 && MIA==1){
