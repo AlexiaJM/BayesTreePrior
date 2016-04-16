@@ -4,8 +4,10 @@ Version: 1.0
 Date: 2016-04-15
 Author: Alexia Jolicoeur-Martineau <alexia.jolicoeur-martineau@mail.mcgill.ca>
 Maintainer: Alexia Jolicoeur-Martineau <alexia.jolicoeur-martineau@mail.mcgill.ca>
-Description: Provides a way to simulate from the prior distribution of bayesian trees by Chipman et al. (1998). The prior distribution of bayesian trees is highly dependent on the design matrix X, therefore using the suggested hyperparameters by Chipman et al. (1998) is not recommended and could lead to unexpected prior distribution. This work is part of my master thesis (In revision, expected 2016) and a journal publication I'm working on.
+Description: Provides a way to simulate from the prior distribution of Bayesian trees by Chipman et al. (1998). The prior distribution of Bayesian trees is highly dependent on the design matrix X, therefore using the suggested hyperparameters by Chipman et al. (1998) is not recommended and could lead to unexpected prior distribution. This work is part of my master thesis (In revision, expected 2016) and a journal publication I'm working on.
 License: GPL-3
+Imports:
+	stats
 Suggests:
 	tgp,
 	BayesTree,
