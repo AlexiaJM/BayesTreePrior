@@ -4,15 +4,17 @@
 \alias{GetListUniqueSplits}
 \title{Unique splits that leads to children with more than \eqn{minpart} nodes.}
 \usage{
-GetListUniqueSplits(x, minpart = 1)
+GetListUniqueSplits(x, minpart = 1, MIA = FALSE)
 }
 \arguments{
-\item{x}{vector containing the observations of a variable}
+\item{x}{vector containing the observations of a variable.}
 
-\item{minpart}{minimum number of observations in the children nodes}
+\item{minpart}{minimum number of observations in the children nodes.}
+
+\item{MIA}{set to TRUE if you want Missing Incorporated in Attributes (MIA) imputation to be used.}
 }
 \value{
-Returns a vector containing the unique splits that leads to children with more than \eqn{minpart} nodes.
+If \eqn{MIA} is TRUE and \eqn{minpart>1}, it might be possible that the possible splits are different depending on whether we transfer the NAs to the left child or the right child; if this is the case then the function returns a list \eqn{(v1,v2)}, where \eqn{v1} is the vector containing the unique splits with NAs transfered to the left child that leads to \eqn{minpart} nodes and \eqn{v2} is the vector containing the unique splits with NAs transfered to the right child that leads to children with more than \eqn{minpart} nodes. Otherwise, it returns the vector containing the unique splits that leads to children with more than \eqn{minpart} nodes.
 }
 \description{
 Unique splits that leads to children with more than \eqn{minpart} nodes.
@@ -20,5 +22,7 @@ Unique splits that leads to children with more than \eqn{minpart} nodes.
 \examples{
 GetListUniqueSplits(c(1,4,7,3,0,2,2,3,4,7,7,7),minpart=1)
 GetListUniqueSplits(c(1,4,7,3,0,2,2,3,4,7,7,7),minpart=3)
+GetListUniqueSplits(c(1,4,7,3,0,2,2,3,4,7,7,7,NA,NA,NA),minpart=1, MIA=TRUE)
+GetListUniqueSplits(c(1,4,7,3,0,2,2,3,4,7,7,7,NA,NA,NA),minpart=3, MIA=TRUE)
 }
 

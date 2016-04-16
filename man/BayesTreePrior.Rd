@@ -35,8 +35,8 @@ In case #1, it returns a list containing, in the following order: the expectatio
 \description{
 This is the main function to use for simulating from the prior. There are 4 cases : 
 \itemize{
- \item{Case #1: }{Unrealistic case where we assume that the number of variables is infinite (therefore \eqn{P(T)} is not dependent on the design matrix X) and \eqn{\beta=0}}
- \item{Case #2: }{Unrealistic case where where we assume that the number of variables is infinite (therefore \eqn{P(T)} is not dependent on the design matrix X)}
+ \item{Case #1: }{Unrealistic case where we assume that the number of variables and possible splits are infinite (therefore \eqn{P(T)} is not dependent on the design matrix X) and \eqn{\beta=0}}
+ \item{Case #2: }{Unrealistic case where we assume that the number of variables and possible splits are infinite (therefore \eqn{P(T)} is not dependent on the design matrix X)}
  \item{Case #3: }{Design matrix X is orthogonal}
  \item{Case #4: }{General case}
 }
