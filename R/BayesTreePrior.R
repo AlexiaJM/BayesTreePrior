@@ -64,8 +64,8 @@
 #' @export
 "BayesTreePriorOrthogonalInf"
 
-#' @title Number of bottom nodes and depth in the case where the design matrix X is orthogonal (Case #3).
-#' @description Generate a tree and returns the number of bottom nodes and depth in the case where the design matrix X is orthogonal (Case #3).
+#' @title Number of bottom nodes and depth in the case where we have one single variable (Case #3).
+#' @description Generate a tree and returns the number of bottom nodes and depth in the case where we have one variable with a finite number of observations (Case #3).
 #' @param alpha base parameter of the tree prior, \eqn{\alpha \in [0,1)}.
 #' @param beta power parameter of the tree prior, \eqn{beta \geq 0}.
 #' @param x_size number of possible splits, \eqn{x_{size}>0}.
@@ -77,8 +77,8 @@
 #' @export
 "NumBotMaxDepth"
 
-#' @title Simulation of the tree prior in the case where the design matrix X is orthogonal (Case #3).
-#' @description Generate \eqn{n_{iter}} trees from the prior distribution in the case where the design matrix X is orthogonal (Case #3).
+#' @title Simulation of the tree prior in the case where we have one single variable (Case #3).
+#' @description Generate \eqn{n_{iter}} trees from the prior distribution in the case where we have one variable with a finite number of observations (Case #3).
 #' @param alpha base parameter of the tree prior, \eqn{\alpha \in [0,1)}.
 #' @param beta power parameter of the tree prior, \eqn{beta \geq 0}.
 #' @param n_obs number of unique observations, \eqn{n_{obs}>1}.
@@ -111,7 +111,7 @@
 #' @param beta power parameter of the tree prior, \eqn{beta \geq 0}.
 #' @param X data.frame of the design matrix.
 #' @param depth depth of the current node, \eqn{depth \geq 0}.
-#' @param minpart the minimum number of bottom nodes required in one of the child to be able to split, \eqn{minpart>0}.
+#' @param minpart the minimum number of observations required in one of the child to be able to split, \eqn{minpart>0}.
 #' @param pvars vector of probabilities for the choices of variables to split (Will automatically be normalized so that the sum equal to 1). It must be twice as large as the number of variables when \eqn{missingdummy} is TRUE.
 #' @param MIA set to TRUE if you want Missing Incorporated in Attributes (MIA) imputation to be used.
 #' @param missingdummy set to TRUE if you have dummy coded the NAs.
@@ -139,7 +139,7 @@
 #' @param beta power parameter of the tree prior, \eqn{\beta \geq 0}.
 #' @param X data.frame of the design matrix.
 #' @param n_iter number of trees to generate, \eqn{n_{iter}>0}.
-#' @param minpart the minimum number of bottom nodes required in one of the child to be able to split, \eqn{minpart>0}.
+#' @param minpart the minimum number of observations required in one of the child to be able to split, \eqn{minpart>0}.
 #' @param pvars vector of probabilities for the choices of variables to split (Will automatically be normalized so that the sum equal to 1). It must be twice as large as the number of variables when \eqn{missingdummy} is TRUE.
 #' @param MIA set to TRUE if you want Missing Incorporated in Attributes (MIA) imputation to be used.
 #' @param missingdummy set to TRUE if you have dummy coded the NAs.
@@ -165,17 +165,17 @@
 #' \itemize{
 #'  \item{Case #1: }{Unrealistic case where we assume that the number of variables and possible splits are infinite (therefore \eqn{P(T)} is not dependent on the design matrix X) and \eqn{\beta=0}}
 #'  \item{Case #2: }{Unrealistic case where we assume that the number of variables and possible splits are infinite (therefore \eqn{P(T)} is not dependent on the design matrix X)}
-#'  \item{Case #3: }{Design matrix X is orthogonal}
+#'  \item{Case #3: }{One variable with a finite number of observations (Seems to be equivalent to the multiple variables case when all variables are continuous)}
 #'  \item{Case #4: }{General case}
 #' }
-#' Case #1 will be used if no design matrix X or number of observations is given and \eqn{\beta = 0}. Case #2 will be used if no design matrix X or number of observations is given and \eqn{\beta \neq 0}. Case #3 will be used if no design matrix X is given but the number of observations is given. Case #4 will be used if the design matrix X is given. Note that case #4 is always slower, so if your design matrix is orthogonal, it would be advisable to enter the number of uniques observations rather than the design matrix X, to be able to use case #3.
+#' Case #1 will be used if no design matrix X or number of observations is given and \eqn{\beta = 0}. Case #2 will be used if no design matrix X or number of observations is given and \eqn{\beta \neq 0}. Case #3 will be used if no design matrix X is given but the number of observations is given. Case #4 will be used if the design matrix X is given. Note that case #4 is always slower, so if all your variables are continuous, it would be advisable to enter the number of uniques observations rather than the design matrix X, to be able to use case #3.
 #' 
 #' @param alpha base parameter of the tree prior, \eqn{\alpha \in [0,1)}.
 #' @param beta power parameter of the tree prior, \eqn{\beta \geq 0}.
 #' @param X data.frame of the design matrix (Required for case #4).
 #' @param n_iter number of trees to generate, \eqn{n_{iter}>0} (Used for case #2, #3 or #4).
 #' @param n_obs number of unique observations, \eqn{n_{obs}>1} (Required for case #3).
-#' @param minpart the minimum number of bottom nodes required in one of the child to be able to split, \eqn{minpart>0}.
+#' @param minpart the minimum number of observations required in one of the child to be able to split, \eqn{minpart>0}.
 #' @param package a optional string that can take the following values : "BayesTree", "tgp" or "bartMachine". It forces the algorithm to use the default paramameters used by the package specified (\eqn{minpart=5} for BayesTree, \eqn{minpart = max(c(10,dim(X)[2]+1))} for tgp and \eqn{minpart=1} for bartMachine). 
 #' @param pvars vector of probabilities for the choices of variables to split (Will automatically be normalized so that the sum equal to 1). It must be twice as large as the number of variables when \eqn{missingdummy} is TRUE.
 #' @param MIA set to TRUE if you want Missing Incorporated in Attributes (MIA) imputation to be used.
@@ -186,7 +186,7 @@
 #' results1 = BayesTreePrior(.45,0)
 #' #Case 2 : Unrealistic case where we assume that the number of var/obs is infinite
 #' results2 = BayesTreePrior(.95,.5)
-#' #Case 3 : Design matrix X is orthogonal
+#' #Case 3 : One variable with a finite number of observations
 #' results3 = BayesTreePrior(.95,.5,n_obs=150)
 #' if (requireNamespace("MASS", quietly = TRUE)) {
 #'     #Case 4 : General case, without missing data
@@ -212,7 +212,7 @@
 #'
 #' Twala, B. E. T. H., Jones, M. C., & Hand, D. J. (2008). \emph{Good methods for coping with missing data in decision trees.} Pattern Recognition Letters, 29(7), 950-956.
 #'
-#' Jolicoeur-Martineau, A. (Currently in revision, expected 2016) \emph{Etude d'une loi a priori pour les arbres binaires de regression} (\emph{Study on the prior distribution of binary regression trees}) (Master thesis). UQAM university.
+#' Jolicoeur-Martineau, A. (expected 2016) \emph{Etude d'une loi a priori pour les arbres binaires de regression} (\emph{Study on the prior distribution of binary regression trees}) (Master thesis). UQAM university.
 #' @import stats
 #' @export
 "BayesTreePrior"
@@ -483,19 +483,19 @@ BayesTreePrior = function(alpha, beta, X=NULL, n_obs=NULL, n_iter=500, minpart=1
 		}
 		else{
 			# Add check for orthogonality on X for this case;
-			message("Case 3 -> The design matrix is orthogonal")
+			message("Case 3 -> One variable with a finite number of observations")
 			message("Ignored arguments : min_part, pvars, MIA, missingdummy")
 			return(BayesTreePriorOrthogonal(alpha, beta, n_obs, n_iter))
 		}
 	}
 	else{
    		if(is.vector(X) && minpart==1 && is.null(pvars) && MIA==FALSE){
-			message("Case 3 -> The design matrix is orthogonal")
+			message("Case 3 -> One variable with a finite number of observations")
 			message("Ignored arguments : min_part, pvars, MIA, missingdummy")
    			return(BayesTreePriorOrthogonal(alpha, beta, n_obs=length(GetListUniqueSplits(X))))
    		}
    		if(dim(X)[2] == 1 && minpart==1 && is.null(pvars) && MIA==FALSE){
-			message("Case 3 -> The design matrix is orthogonal")
+			message("Case 3 -> One variable with a finite number of observations")
 			message("Ignored arguments : min_part, pvars, MIA, missingdummy")
    			return(BayesTreePriorOrthogonal(alpha, beta, n_obs=length(GetListUniqueSplits(as.vector(as.matrix(X))))))
    		}

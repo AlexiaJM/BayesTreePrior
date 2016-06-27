@@ -2,7 +2,7 @@
 % Please edit documentation in R/BayesTreePrior.R
 \name{BayesTreePriorOrthogonal}
 \alias{BayesTreePriorOrthogonal}
-\title{Simulation of the tree prior in the case where the design matrix X is orthogonal (Case #3).}
+\title{Simulation of the tree prior in the case where we have one single variable (Case #3).}
 \usage{
 BayesTreePriorOrthogonal(alpha, beta, n_obs, n_iter = 500)
 }
@@ -19,7 +19,7 @@ BayesTreePriorOrthogonal(alpha, beta, n_obs, n_iter = 500)
 Returns a list containing, in the following order: the mean number of bottom nodes, the standard deviation of the number of bottom nodes, the mean of the depth, the standard deviation of the depth and a data.frame of vectors \eqn{(b_i,d_i)}, where \eqn{b_i} is the number of bottom nodes and \eqn{d_i} is the depth of the \eqn{i}th generated tree (\eqn{i=1, \ldots ,n_{iter}}).
 }
 \description{
-Generate \eqn{n_{iter}} trees from the prior distribution in the case where the design matrix X is orthogonal (Case #3).
+Generate \eqn{n_{iter}} trees from the prior distribution in the case where we have one variable with a finite number of observations (Case #3).
 }
 \examples{
 results1 = BayesTreePriorOrthogonal(.95,.5, 100)

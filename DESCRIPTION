@@ -1,16 +1,15 @@
 Package: BayesTreePrior
 Title: Bayesian Tree Prior Simulation
-Version: 1.0
-Date: 2016-04-15
+Version: 1.0.1
+Date: 2016-06-27
 Author: Alexia Jolicoeur-Martineau <alexia.jolicoeur-martineau@mail.mcgill.ca>
 Maintainer: Alexia Jolicoeur-Martineau <alexia.jolicoeur-martineau@mail.mcgill.ca>
-Description: Provides a way to simulate from the prior distribution of Bayesian trees by Chipman et al. (1998) <DOI:10.2307/2669832>. The prior distribution of Bayesian trees is highly dependent on the design matrix X, therefore using the suggested hyperparameters by Chipman et al. (1998) <DOI:10.2307/2669832> is not recommended and could lead to unexpected prior distribution. This work is part of my master thesis (In revision, expected 2016) and a journal publication I'm working on.
+Description: Provides a way to simulate from the prior distribution of Bayesian trees by Chipman et al. (1998) <DOI:10.2307/2669832>. The prior distribution of Bayesian trees is highly dependent on the design matrix X, therefore using the suggested hyperparameters by Chipman et al. (1998) <DOI:10.2307/2669832> is not recommended and could lead to unexpected prior distribution. This work is part of my master thesis (expected 2016).
 License: GPL-3
-Imports:
-	stats
-Suggests:
-	tgp,
-	BayesTree,
-	bartMachine,
-	MASS
+Imports: stats
+Suggests: tgp, BayesTree, bartMachine, MASS
 RoxygenNote: 5.0.1
+NeedsCompilation: no
+Packaged: 2016-06-27 17:38:55 UTC; Emiaz
+Repository: CRAN
+Date/Publication: 2016-04-18 08:45:38

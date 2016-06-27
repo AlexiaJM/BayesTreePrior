@@ -16,7 +16,7 @@ BayesTreePriorNotOrthogonal(alpha, beta, X, n_iter = 500, minpart = 1,
 
 \item{n_iter}{number of trees to generate, \eqn{n_{iter}>0}.}
 
-\item{minpart}{the minimum number of bottom nodes required in one of the child to be able to split, \eqn{minpart>0}.}
+\item{minpart}{the minimum number of observations required in one of the child to be able to split, \eqn{minpart>0}.}
 
 \item{pvars}{vector of probabilities for the choices of variables to split (Will automatically be normalized so that the sum equal to 1). It must be twice as large as the number of variables when \eqn{missingdummy} is TRUE.}
 

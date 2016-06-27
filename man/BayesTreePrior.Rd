@@ -19,7 +19,7 @@ BayesTreePrior(alpha, beta, X = NULL, n_obs = NULL, n_iter = 500,
 
 \item{n_iter}{number of trees to generate, \eqn{n_{iter}>0} (Used for case #2, #3 or #4).}
 
-\item{minpart}{the minimum number of bottom nodes required in one of the child to be able to split, \eqn{minpart>0}.}
+\item{minpart}{the minimum number of observations required in one of the child to be able to split, \eqn{minpart>0}.}
 
 \item{package}{a optional string that can take the following values : "BayesTree", "tgp" or "bartMachine". It forces the algorithm to use the default paramameters used by the package specified (\eqn{minpart=5} for BayesTree, \eqn{minpart = max(c(10,dim(X)[2]+1))} for tgp and \eqn{minpart=1} for bartMachine).}
 
@@ -37,17 +37,17 @@ This is the main function to use for simulating from the prior. There are 4 case
 \itemize{
  \item{Case #1: }{Unrealistic case where we assume that the number of variables and possible splits are infinite (therefore \eqn{P(T)} is not dependent on the design matrix X) and \eqn{\beta=0}}
  \item{Case #2: }{Unrealistic case where we assume that the number of variables and possible splits are infinite (therefore \eqn{P(T)} is not dependent on the design matrix X)}
- \item{Case #3: }{Design matrix X is orthogonal}
+ \item{Case #3: }{One variable with a finite number of observations (Seems to be equivalent to the multiple variables case when all variables are continuous)}
  \item{Case #4: }{General case}
 }
-Case #1 will be used if no design matrix X or number of observations is given and \eqn{\beta = 0}. Case #2 will be used if no design matrix X or number of observations is given and \eqn{\beta \neq 0}. Case #3 will be used if no design matrix X is given but the number of observations is given. Case #4 will be used if the design matrix X is given. Note that case #4 is always slower, so if your design matrix is orthogonal, it would be advisable to enter the number of uniques observations rather than the design matrix X, to be able to use case #3.
+Case #1 will be used if no design matrix X or number of observations is given and \eqn{\beta = 0}. Case #2 will be used if no design matrix X or number of observations is given and \eqn{\beta \neq 0}. Case #3 will be used if no design matrix X is given but the number of observations is given. Case #4 will be used if the design matrix X is given. Note that case #4 is always slower, so if all your variables are continuous, it would be advisable to enter the number of uniques observations rather than the design matrix X, to be able to use case #3.
 }
 \examples{
 #Case 1 : Unrealistic case where we assume that the number of var/obs is infinite and beta=0
 results1 = BayesTreePrior(.45,0)
 #Case 2 : Unrealistic case where we assume that the number of var/obs is infinite
 results2 = BayesTreePrior(.95,.5)
-#Case 3 : Design matrix X is orthogonal
+#Case 3 : One variable with a finite number of observations
 results3 = BayesTreePrior(.95,.5,n_obs=150)
 if (requireNamespace("MASS", quietly = TRUE)) {
     #Case 4 : General case, without missing data
@@ -74,6 +74,6 @@ Kapelner, A., & Bleich, J. (2013). \emph{bartMachine: A powerful tool for machin
 
 Twala, B. E. T. H., Jones, M. C., & Hand, D. J. (2008). \emph{Good methods for coping with missing data in decision trees.} Pattern Recognition Letters, 29(7), 950-956.
 
-Jolicoeur-Martineau, A. (Currently in revision, expected 2016) \emph{Etude d'une loi a priori pour les arbres binaires de regression} (\emph{Study on the prior distribution of binary regression trees}) (Master thesis). UQAM university.
+Jolicoeur-Martineau, A. (expected 2016) \emph{Etude d'une loi a priori pour les arbres binaires de regression} (\emph{Study on the prior distribution of binary regression trees}) (Master thesis). UQAM university.
 }
 

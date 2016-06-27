@@ -16,7 +16,7 @@ NumBotMaxDepthX(alpha, beta, X, depth = 0, minpart = 1, pvars = NULL,
 
 \item{depth}{depth of the current node, \eqn{depth \geq 0}.}
 
-\item{minpart}{the minimum number of bottom nodes required in one of the child to be able to split, \eqn{minpart>0}.}
+\item{minpart}{the minimum number of observations required in one of the child to be able to split, \eqn{minpart>0}.}
 
 \item{pvars}{vector of probabilities for the choices of variables to split (Will automatically be normalized so that the sum equal to 1). It must be twice as large as the number of variables when \eqn{missingdummy} is TRUE.}
 

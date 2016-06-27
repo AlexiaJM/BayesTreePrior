@@ -2,7 +2,7 @@
 % Please edit documentation in R/BayesTreePrior.R
 \name{NumBotMaxDepth}
 \alias{NumBotMaxDepth}
-\title{Number of bottom nodes and depth in the case where the design matrix X is orthogonal (Case #3).}
+\title{Number of bottom nodes and depth in the case where we have one single variable (Case #3).}
 \usage{
 NumBotMaxDepth(alpha, beta, x_size, depth = 0)
 }
@@ -19,7 +19,7 @@ NumBotMaxDepth(alpha, beta, x_size, depth = 0)
 Returns a vector containing the number of bottom nodes and depth
 }
 \description{
-Generate a tree and returns the number of bottom nodes and depth in the case where the design matrix X is orthogonal (Case #3).
+Generate a tree and returns the number of bottom nodes and depth in the case where we have one variable with a finite number of observations (Case #3).
 }
 \examples{
 NumBotMaxDepth(.95,.5,500)
