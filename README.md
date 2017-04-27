@@ -2,7 +2,6 @@
 
 [![](http://cranlogs.r-pkg.org/badges/BayesTreePrior)](http://cran.rstudio.com/web/packages/BayesTreePrior/index.html)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/BayesTreePrior)](http://cran.rstudio.com/web/packages/BayesTreePrior/index.html)
-[![rpackages.io rank](https://www.rpackages.io/badge/BayesTreePrior.svg)](https://www.rpackages.io/package/BayesTreePrior)
 
 BayesTreePrior is a R package for the simulation of the prior distribution of bayesian trees by Chipman et al. (1998). 
 The prior distribution of the trees is highly dependent on the design matrix X, therefore using the suggested hyperparameters 
